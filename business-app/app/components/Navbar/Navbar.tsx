@@ -4,7 +4,11 @@ import { useState } from "react";
 import Link from "next/link";
 import "./styles.css";
 
-export default function Navbar() {
+type NavbarProps = {
+  cartCount: number;
+};
+
+export default function Navbar({ cartCount }: NavbarProps) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
@@ -26,8 +30,7 @@ export default function Navbar() {
 
         <nav className="cookie-navbar__navigation" aria-label="Main navigation">
           <div className="cookie-navbar__desktop-links">
-            <a href="#cookies">Shop cookies</a>
-            <a href="#story">Our story</a>
+            <a href="#shop">Shop cookies</a>
             <a href="#how-to-order">How to order</a>
           </div>
           <button
@@ -45,11 +48,8 @@ export default function Navbar() {
             id="mobile-navigation"
             hidden={!menuOpen}
           >
-            <a href="#cookies" onClick={() => setMenuOpen(false)}>
+            <a href="#shop" onClick={() => setMenuOpen(false)}>
               Shop cookies
-            </a>
-            <a href="#story" onClick={() => setMenuOpen(false)}>
-              Our story
             </a>
             <a href="#how-to-order" onClick={() => setMenuOpen(false)}>
               How to order
@@ -57,11 +57,17 @@ export default function Navbar() {
           </div>
         </nav>
 
-        <div className="cookie-navbar__cart">
+        <a
+          className="cookie-navbar__cart"
+          href="#cookie-box"
+          aria-label={`Your cookie box contains ${cartCount} ${
+            cartCount === 1 ? "item" : "items"
+          }. View your box.`}
+        >
           <span aria-hidden="true">🛒</span>
           <span className="cookie-navbar__cart-label">Your box</span>
-          <span className="cookie-navbar__cart-count">0</span>
-        </div>
+          <span className="cookie-navbar__cart-count">{cartCount}</span>
+        </a>
       </div>
     </header>
   );
